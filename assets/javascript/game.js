@@ -1,54 +1,53 @@
-//these will be the letter choices for computer and user use
-var letterChoices = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+//Assignment Rules:
+//Computer randomly picks a letter from array, user has to guess which letter the cpu chose.
 
-//counters 
+//this is the array of letter choices for computer and user to pick from
+let letterChoices = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+
+//counters displayed on html, will reset when guesses left reach 0, or guessed correct letter
 var wins = 0;
 var losses = 0;
 var guessesLeft = 10;
 var guessedLetters = [];
 
-console.log(letterChoices);
-
+//used to see what letter/key the user types   
 document.onkeyup= function(event) {
-
-    console.log(event);
-    //determines which key was pressed.
-    var userGuess = event.key;
-    // randomly chooses a choice from the options array. This is the Computer's guess.
-    function cpuGuess(letterChoices) {
-         return letterChoices[Math.floor(Math.random() * letterChoices.length)];
-    }
+//computer randomly picks letter from letterChoices array to be matched to user guess
+function cpuGuess(letterChoices) {
+    return letterChoices[Math.floor(Math.random() * letterChoices.length)];
+}
+var userGuess = event.key;
 
         //Pushes userGuess to wongGuesses array.
-        var addGuess = function() {
-            guessedLetters.push(
-                userGuess
-                )
-            };	
+
         
             //Resets the game.
-            var resetGame = function() {
+            var reset = function() {
                     guessesLeft = 10;
                     guessedLetters = [];
                     cpuGuess();
             };
-        
-            //Determines winning and losing and what happens
+//if user guesses incorrectly, this takes wrong letter and "pushes" letter to guessedLetters
+var addGuess = function() {
+    guessedLetters.push(
+    userGuess)
+};	
+            //if else statements to control flow of program, alerts user if letter guessed correctly, or alerts user if loss
             if (userGuess === cpuGuess) {
-                alert("You got it! You're out of this world!")
+                alert("Can you really read my mind?? Prove it again!")
                 wins++;
-                resetGame(); 
+                reset(); 
             } else {
-                guessesLeft--;
-                addGuess();
-                if (guessesLeft === 0) {
-                    alert("Disappointing. Try again and prove me wrong.");
-                    losses++;
-                    resetGame();
+            guessesLeft--;
+            addGuess();
+            if (guessesLeft === 0) {
+            alert("I knew you weren't psychic.  It's okay.  Try again!")
+                losses++;
+                reset();
                 }
             };
         
-            //Incorporating HTML
+            //this tracks stats and updates the html
             var html =
               "<p>Wins: " + wins + "</p>" +
               "<p>Losses: " + losses + "</p>" +
