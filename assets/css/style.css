@@ -1,9 +1,5 @@
-h1 {
-    text-align: center;
-    font-family: fantasy;
-    font-size: 50px;
-    padding: 30px;
-}
+
+
 
 h3 {
     text-align: center;
@@ -11,12 +7,23 @@ h3 {
     padding: 10px;
     margin-left: auto;
     margin-right: auto;
+    font-family: 'Lacquer';
 }
 
-.list {
-    ;
+#gameplay {
     margin-left: auto;
     margin-right: auto;
     padding: 30px;
     width: 100%;
+    font-family: 'Lacquer';
+}
+h1 {
+    font-family: 'Lacquer', ;
+    text-align: center;
+    font-size: 50px;
+    padding: 30px;
+    
+}
+.game-header {
+        font-family: 'Lacquer' ;
 }
