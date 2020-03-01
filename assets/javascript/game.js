@@ -1,70 +1,65 @@
-//Letter choices available
+//list of variables to be used in Psychic Game
+//array of letters for user and computer to pick from
+
 var computerChoices = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
 
-//Setting all to zero
+//variables for game display
 var wins = 0;
 var losses = 0;
-var guesses = 9;
 var guessesLeft = 9;
 var guessedLetters = [];
 var letterToGuess = null;
 
-
-
-//Lets the computer select a random letter from the available choices
+//computer picks from computerChoices array to begin game
 var computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
 
-//Allows the user 9 guesses
-// guesses = guesses || 9
-var updateGuessesLeft = function() {
-  // Here we are grabbing the HTML element and setting it equal to the guessesLeft. (i.e. guessesLeft will get displayed in HTML)
-  document.querySelector('#guessLeft').innerHTML = "Guesses left: " + guessesLeft;
-};
-
-var updateLetterToGuess = function() {
+// logs the answer to console, answer is null at beginning of game, updates w/answer
+var updateLetterToGuess = function () {
   this.letterToGuess = this.computerChoices[Math.floor(Math.random() * this.computerChoices.length)];
+  console.log(letterToGuess);
 };
-var updateGuessesSoFar = function() {
-  // Here we take the guesses the user has tried -- then display it as letters separated by commas. 
-  document.querySelector('#let').innerHTML = "Your Guesses so far: " + guessedLetters.join(', ');
-};
-// Function will be called when we reset everything
-var reset = function() {
-  totalGuesses = 9;
-  guessesLeft = 9;
-  guessedLetters = [];
 
-  updateLetterToGuess();
-  updateGuessesLeft();
-  updateGuessesSoFar();
-}
-
-updateLetterToGuess();
-updateGuessesLeft();
-
-
-//When key is released it becomes the users guess
-document.onkeyup = function(event) {
-    guessesLeft--;
+//event when user presses letter for guess, pushes to userGuess, runs update functions
+//also if/else if for gameplay, calls reset function if guesses reach 0, or if guess correct
+document.onkeyup = function (event) {
+  guessesLeft--;
   var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
 
   guessedLetters.push(userGuess);
   updateGuessesLeft();
   updateGuessesSoFar();
-
-        if (guessesLeft > 0){
-            if (userGuess == letterToGuess){
-                wins++;
-                document.querySelector('#wins').innerHTML = "Wins: " + wins;
-                alert("Yes, you are psychic!");
-                reset();
-            }
-        }else if(guessesLeft == 0){
-            // Then we will loss and we'll update the html to display the loss 
-            losses++;
-            document.querySelector('#losses').innerHTML = "Losses: " + losses;
-            alert("Sorry, you're not psychic, maybe try again?");
-            // Then we'll call the reset. 
-            reset();
-        }
+  //if guess is equal to answer, player is alerted and reset function is called
+  if (guessesLeft > 0) {
+    if (userGuess == letterToGuess) {
+      wins++;
+      document.getElementById('wins').innerHTML = "Wins: " + wins;
+      alert("You guessed correctly!");
+      reset();
+    }
+    //if guesses reach 0, player is alerted, reset function called
+  } else if (guessesLeft == 0) {
+    losses++;
+    document.getElementById('losses').innerHTML = "Losses: " + losses;
+    alert("Out of guesses. Try again!");
+    reset();
+  }
 };
+
+//functions used to update display
+var updateGuessesLeft = function () {
+  document.getElementById('guessLeft').innerHTML = "Guesses left: " + guessesLeft;
+};
+
+var updateGuessesSoFar = function () {
+  document.getElementById('guessedSoFar').innerHTML = "Your Guesses so far: " + guessedLetters.join(', ');
+};
+// function resets guesses left and guessed letters array after being called
+var reset = function () {
+  guessesLeft = 9;
+  guessedLetters = [];
+  updateLetterToGuess();
+  updateGuessesLeft();
+  updateGuessesSoFar();
+}
+//call function to update letter to guess at start up
+updateLetterToGuess();
